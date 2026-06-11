@@ -1,0 +1,313 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - VIP Guest Hotel</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- Admin Nav -->
+  <nav class="admin-nav" style="background:#2C3E50;">
+    <div class="nav-inner">
+      <a href="./admin.html" class="nav-logo">🔧 Admin Panel — <span>VIP Guest Hotel</span></a>
+      <ul>
+        <li><a href="./admin.html" class="active" style="color:#CBD5E0;">Dashboard</a></li>
+        <li><a href="./index.html" target="_blank" style="color:#CBD5E0;">View Website</a></li>
+        <li><a href="#" id="logoutBtn" style="color:#FF7A2F;" onclick="logout()">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="admin-panel">
+
+    <!-- Header -->
+    <div class="admin-header">
+      <div>
+        <h2 style="color:#1A3A5C; margin-bottom:0.25rem;">Bookings Dashboard</h2>
+        <p style="color:#667788; font-size:0.9rem;">Manage booking inquiries and guest feedback</p>
+      </div>
+      <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+        <button onclick="loadBookings()" class="btn btn-blue" style="border-radius:8px; padding:0.6rem 1.25rem;">Refresh</button>
+        <button onclick="exportCSV()" class="btn" style="border-radius:8px; padding:0.6rem 1.25rem;">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="admin-stats" id="statsSection">
+      <div class="stat-card">
+        <div class="stat-number" id="statTotal">—</div>
+        <div class="stat-label">Total Bookings</div>
+      </div>
+      <div class="stat-card" style="border-color:#F39C12;">
+        <div class="stat-number" id="statPending" style="color:#E67E22;">—</div>
+        <div class="stat-label">Pending</div>
+      </div>
+      <div class="stat-card" style="border-color:#27AE60;">
+        <div class="stat-number" id="statConfirmed" style="color:#27AE60;">—</div>
+        <div class="stat-label">Confirmed</div>
+      </div>
+      <div class="stat-card" style="border-color:#5BA4CF;">
+        <div class="stat-number" id="statFeedback" style="color:#5BA4CF;">—</div>
+        <div class="stat-label">Feedback Items</div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="margin-bottom:1.5rem; display:flex; gap:0.5rem;">
+      <button onclick="showTab('bookings')" id="tabBookings" class="btn btn-blue" style="border-radius:8px; padding:0.6rem 1.25rem;">Booking Inquiries</button>
+      <button onclick="showTab('feedback')" id="tabFeedback" class="btn" style="border-radius:8px; padding:0.6rem 1.25rem; background:#EEF7FF; color:#2E8BC0;">Guest Feedback</button>
+      <button onclick="showTab('contacts')" id="tabContacts" class="btn" style="border-radius:8px; padding:0.6rem 1.25rem; background:#EEF7FF; color:#2E8BC0;">Contact Inquiries</button>
+    </div>
+
+    <!-- Bookings Table -->
+    <div id="bookingsPanel">
+      <div id="bookingsTableWrap">
+        <p style="color:#667788;">Loading bookings...</p>
+      </div>
+    </div>
+
+    <!-- Feedback Panel -->
+    <div id="feedbackPanel" style="display:none;">
+      <div id="feedbackTableWrap">
+        <p style="color:#667788;">Loading feedback...</p>
+      </div>
+    </div>
+
+    <!-- Contacts Panel -->
+    <div id="contactsPanel" style="display:none;">
+      <div id="contactsTableWrap">
+        <p style="color:#667788;">Loading contact inquiries...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const token = sessionStorage.getItem('adminToken');
+    if (!token) window.location.href = '/admin-login';
+
+    function logout() {
+      sessionStorage.removeItem('adminToken');
+      window.location.href = '/admin-login';
+    }
+
+    function authHeaders() {
+      return { 'Content-Type': 'application/json', 'x-admin-token': token };
+    }
+
+    function showTab(tab) {
+      ['bookings', 'feedback', 'contacts'].forEach(t => {
+        document.getElementById(t + 'Panel').style.display = t === tab ? 'block' : 'none';
+      });
+      document.getElementById('tabBookings').className = tab === 'bookings'
+        ? 'btn btn-blue' : 'btn';
+      document.getElementById('tabBookings').style = tab === 'bookings'
+        ? 'border-radius:8px;padding:0.6rem 1.25rem;'
+        : 'border-radius:8px;padding:0.6rem 1.25rem;background:#EEF7FF;color:#2E8BC0;';
+      document.getElementById('tabFeedback').style = tab === 'feedback'
+        ? 'border-radius:8px;padding:0.6rem 1.25rem;background:#2E8BC0;color:white;'
+        : 'border-radius:8px;padding:0.6rem 1.25rem;background:#EEF7FF;color:#2E8BC0;';
+      document.getElementById('tabContacts').style = tab === 'contacts'
+        ? 'border-radius:8px;padding:0.6rem 1.25rem;background:#2E8BC0;color:white;'
+        : 'border-radius:8px;padding:0.6rem 1.25rem;background:#EEF7FF;color:#2E8BC0;';
+    }
+
+    async function loadBookings() {
+      try {
+        const res = await fetch('/api/admin/bookings', { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const bookings = await res.json();
+
+        document.getElementById('statTotal').textContent = bookings.length;
+        document.getElementById('statPending').textContent = bookings.filter(b => b.status === 'pending').length;
+        document.getElementById('statConfirmed').textContent = bookings.filter(b => b.status === 'confirmed').length;
+
+        if (bookings.length === 0) {
+          document.getElementById('bookingsTableWrap').innerHTML =
+            '<div class="alert alert-info">No booking inquiries yet.</div>';
+          return;
+        }
+
+        const rows = bookings.map(b => `
+          <tr>
+            <td>${b.id}</td>
+            <td><strong>${b.guestName}</strong><br><small style="color:#aaa;">${b.guestEmail}</small></td>
+            <td>${b.roomType}</td>
+            <td>${b.checkInDate}</td>
+            <td>${b.checkOutDate}</td>
+            <td>${b.guests}</td>
+            <td>${b.phone || '—'}</td>
+            <td><small>${b.message || '—'}</small></td>
+            <td>
+              <select onchange="updateStatus('${b.id}', this.value)" style="padding:0.3rem; border-radius:6px; border:1px solid #ddd; font-size:0.85rem;">
+                <option value="pending" ${b.status === 'pending' ? 'selected' : ''}>Pending</option>
+                <option value="confirmed" ${b.status === 'confirmed' ? 'selected' : ''}>Confirmed</option>
+                <option value="cancelled" ${b.status === 'cancelled' ? 'selected' : ''}>Cancelled</option>
+              </select>
+            </td>
+            <td><small style="color:#aaa;">${new Date(b.createdAt).toLocaleDateString()}</small></td>
+          </tr>
+        `).join('');
+
+        document.getElementById('bookingsTableWrap').innerHTML = `
+          <div style="overflow-x:auto;">
+            <table class="bookings-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Guest</th>
+                  <th>Room</th>
+                  <th>Check-In</th>
+                  <th>Check-Out</th>
+                  <th>Guests</th>
+                  <th>Phone</th>
+                  <th>Note</th>
+                  <th>Status</th>
+                  <th>Received</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        `;
+
+        window._bookings = bookings;
+      } catch (e) {
+        document.getElementById('bookingsTableWrap').innerHTML =
+          '<div class="alert alert-error">Failed to load bookings.</div>';
+      }
+    }
+
+    async function loadFeedback() {
+      try {
+        const res = await fetch('/api/admin/feedback', { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const items = await res.json();
+
+        document.getElementById('statFeedback').textContent = items.length;
+
+        if (items.length === 0) {
+          document.getElementById('feedbackTableWrap').innerHTML =
+            '<div class="alert alert-info">No feedback submitted yet.</div>';
+          return;
+        }
+
+        const rows = items.map(f => `
+          <tr>
+            <td>${f.id}</td>
+            <td><strong>${f.name}</strong><br><small style="color:#aaa;">${f.email}</small></td>
+            <td>${f.room || '—'}</td>
+            <td style="text-align:center; color:#F5A623;">${'★'.repeat(f.overallRating || 0)}</td>
+            <td><small>${f.comments}</small></td>
+            <td>${f.recommend || '—'}</td>
+            <td>${f.allowPublic ? '✅ Yes' : '—'}</td>
+            <td><small style="color:#aaa;">${new Date(f.createdAt).toLocaleDateString()}</small></td>
+          </tr>
+        `).join('');
+
+        document.getElementById('feedbackTableWrap').innerHTML = `
+          <div style="overflow-x:auto;">
+            <table class="bookings-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Guest</th>
+                  <th>Room</th>
+                  <th>Rating</th>
+                  <th>Comments</th>
+                  <th>Recommend</th>
+                  <th>Public?</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        `;
+      } catch (e) {
+        document.getElementById('feedbackTableWrap').innerHTML =
+          '<div class="alert alert-error">Failed to load feedback.</div>';
+      }
+    }
+
+    async function loadContacts() {
+      try {
+        const res = await fetch('/api/admin/contacts', { headers: authHeaders() });
+        if (res.status === 401) { logout(); return; }
+        const items = await res.json();
+
+        if (items.length === 0) {
+          document.getElementById('contactsTableWrap').innerHTML =
+            '<div class="alert alert-info">No contact inquiries yet.</div>';
+          return;
+        }
+
+        const rows = items.map(c => `
+          <tr>
+            <td>${c.id}</td>
+            <td><strong>${c.name}</strong><br><small style="color:#aaa;">${c.email}</small></td>
+            <td>${c.subject}</td>
+            <td><small>${c.message}</small></td>
+            <td><small style="color:#aaa;">${new Date(c.createdAt).toLocaleDateString()}</small></td>
+          </tr>
+        `).join('');
+
+        document.getElementById('contactsTableWrap').innerHTML = `
+          <div style="overflow-x:auto;">
+            <table class="bookings-table">
+              <thead>
+                <tr><th>#</th><th>From</th><th>Subject</th><th>Message</th><th>Date</th></tr>
+              </thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        `;
+      } catch (e) {
+        document.getElementById('contactsTableWrap').innerHTML =
+          '<div class="alert alert-error">Failed to load contacts.</div>';
+      }
+    }
+
+    async function updateStatus(id, status) {
+      try {
+        await fetch(`/api/admin/bookings/${id}/status`, {
+          method: 'PATCH',
+          headers: authHeaders(),
+          body: JSON.stringify({ status })
+        });
+        // Refresh stats
+        loadBookings();
+      } catch (e) { /* silent */ }
+    }
+
+    function exportCSV() {
+      if (!window._bookings || !window._bookings.length) {
+        alert('No bookings to export.');
+        return;
+      }
+      const headers = ['ID','Name','Email','Room','Check-In','Check-Out','Guests','Phone','Status','Date'];
+      const rows = window._bookings.map(b =>
+        [b.id, b.guestName, b.guestEmail, b.roomType, b.checkInDate, b.checkOutDate,
+          b.guests, b.phone || '', b.status, new Date(b.createdAt).toLocaleDateString()
+        ].map(v => `"${v}"`).join(',')
+      );
+      const csv = [headers.join(','), ...rows].join('\n');
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'vip-hotel-bookings.csv';
+      a.click();
+    }
+
+    // Load all data on page ready
+    document.addEventListener('DOMContentLoaded', () => {
+      loadBookings();
+      loadFeedback();
+      loadContacts();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login - VIP Guest Hotel</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div class="login-wrap">
+    <div class="login-box">
+      <div style="text-align:center; margin-bottom:1.5rem;">
+        <div style="font-size:3rem;">🔐</div>
+        <h2>Admin Login</h2>
+        <p class="subtitle">VIP Guest Hotel — Staff Only</p>
+      </div>
+
+      <div id="loginAlert"></div>
+
+      <form id="loginForm" onsubmit="doLogin(event)">
+        <div class="form-group">
+          <label for="adminUser">Username</label>
+          <input type="text" id="adminUser" name="adminUser" placeholder="admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="adminPass">Password</label>
+          <input type="password" id="adminPass" name="adminPass" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+        <button type="submit" id="loginBtn" style="width:100%;">Log In</button>
+      </form>
+
+      <div style="text-align:center; margin-top:1.5rem;">
+        <a href="./index.html" style="color:#667788; font-size:0.9rem; text-decoration:none;">← Back to Hotel Website</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Redirect to admin if already logged in
+    if (sessionStorage.getItem('adminToken')) {
+      window.location.href = '/admin';
+    }
+
+    async function doLogin(event) {
+      event.preventDefault();
+      const btn = document.getElementById('loginBtn');
+      btn.disabled = true;
+      btn.textContent = 'Logging in...';
+
+      const username = document.getElementById('adminUser').value;
+      const password = document.getElementById('adminPass').value;
+
+      try {
+        const res = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.token) {
+          sessionStorage.setItem('adminToken', data.token);
+          window.location.href = '/admin';
+        } else {
+          document.getElementById('loginAlert').innerHTML =
+            '<div class="alert alert-error">Invalid username or password.</div>';
+        }
+      } catch (e) {
+        document.getElementById('loginAlert').innerHTML =
+          '<div class="alert alert-error">Login failed. Please try again.</div>';
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Log In';
+    }
+  </script>
+</body>
+</html>

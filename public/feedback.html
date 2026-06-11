@@ -1,0 +1,295 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guest Feedback - VIP Guest Hotel | Koror, Palau</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="./index.html" class="nav-logo">
+        <img src="https://img1.wsimg.com/isteam/ip/0e7a6def-6698-4042-8860-0da93b9b8d02/logo%20(1).jpg"
+             alt="VIP Guest Hotel"
+             style="height:38px; filter:invert(1) brightness(10); vertical-align:middle; margin-right:6px;">
+        <span>VIP</span> Guest Hotel
+      </a>
+      <ul>
+        <li><a href="./index.html" data-page="home">Home</a></li>
+        <li><a href="./rooms.html" data-page="rooms">Rooms</a></li>
+        <li><a href="./about.html" data-page="about">About</a></li>
+        <li><a href="./contact.html" data-page="contact">Contact</a></li>
+        <li><a href="./feedback.html" data-page="feedback" class="active">Feedback</a></li>
+        <li><a href="./bookings.html" class="nav-book-btn">Book Now</a></li>
+      </ul>
+      <div class="nav-social">
+        <a href="https://www.facebook.com/100960141679782" target="_blank" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="https://www.instagram.com/vip_guest_hotel" target="_blank" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <div class="header-logo-box">
+      <img src="https://img1.wsimg.com/isteam/ip/0e7a6def-6698-4042-8860-0da93b9b8d02/logo%20(1).jpg"
+           alt="VIP Guest Hotel" class="header-logo-img">
+    </div>
+    <h1>Share Your Feedback</h1>
+    <p>Help us keep improving — every word matters to our family</p>
+  </header>
+
+  <div class="container">
+
+    <section style="padding: 1rem 0 0;">
+      <p class="section-intro">
+        As a family-owned hotel, your honest feedback is invaluable. We read every submission and use it to continue delivering the warmth and quality you deserve. Thank you for staying with us!
+      </p>
+    </section>
+
+    <!-- Feedback Form -->
+    <section>
+      <span class="section-label">Your Experience</span>
+      <h2>Leave Your Feedback</h2>
+      <form id="feedbackForm" onsubmit="submitFeedback(event)" style="max-width:700px;">
+        <div id="feedbackAlert"></div>
+
+        <div class="two-column-form">
+          <div class="form-group">
+            <label for="fbName">Your Name *</label>
+            <input type="text" id="fbName" name="fbName" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label for="fbEmail">Email Address *</label>
+            <input type="email" id="fbEmail" name="fbEmail" placeholder="your@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fbRoom">Room Type Stayed In</label>
+          <select id="fbRoom" name="fbRoom">
+            <option value="">— Select if applicable —</option>
+            <option value="Single Room">Single Room</option>
+            <option value="Double Twin Room">Double / Twin Room</option>
+            <option value="Triple Room">Triple Room</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="fbStayDate">Approximate Stay Date</label>
+          <input type="month" id="fbStayDate" name="fbStayDate">
+        </div>
+
+        <!-- Overall Rating -->
+        <div class="form-group">
+          <label>Overall Experience *</label>
+          <div class="rating-group" id="overallRating">
+            <input type="radio" id="star5" name="overallRating" value="5" required>
+            <label for="star5">★</label>
+            <input type="radio" id="star4" name="overallRating" value="4">
+            <label for="star4">★</label>
+            <input type="radio" id="star3" name="overallRating" value="3">
+            <label for="star3">★</label>
+            <input type="radio" id="star2" name="overallRating" value="2">
+            <label for="star2">★</label>
+            <input type="radio" id="star1" name="overallRating" value="1">
+            <label for="star1">★</label>
+          </div>
+          <p style="font-size:0.85rem; color:#aaa; margin-top:0.25rem;" id="ratingLabel">Click to rate</p>
+        </div>
+
+        <!-- Category Ratings -->
+        <div class="form-group">
+          <label>Cleanliness</label>
+          <div class="rating-group">
+            <input type="radio" id="c5" name="cleanRating" value="5"><label for="c5">★</label>
+            <input type="radio" id="c4" name="cleanRating" value="4"><label for="c4">★</label>
+            <input type="radio" id="c3" name="cleanRating" value="3"><label for="c3">★</label>
+            <input type="radio" id="c2" name="cleanRating" value="2"><label for="c2">★</label>
+            <input type="radio" id="c1" name="cleanRating" value="1"><label for="c1">★</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Staff &amp; Service</label>
+          <div class="rating-group">
+            <input type="radio" id="s5" name="staffRating" value="5"><label for="s5">★</label>
+            <input type="radio" id="s4" name="staffRating" value="4"><label for="s4">★</label>
+            <input type="radio" id="s3" name="staffRating" value="3"><label for="s3">★</label>
+            <input type="radio" id="s2" name="staffRating" value="2"><label for="s2">★</label>
+            <input type="radio" id="s1" name="staffRating" value="1"><label for="s1">★</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Value for Money</label>
+          <div class="rating-group">
+            <input type="radio" id="v5" name="valueRating" value="5"><label for="v5">★</label>
+            <input type="radio" id="v4" name="valueRating" value="4"><label for="v4">★</label>
+            <input type="radio" id="v3" name="valueRating" value="3"><label for="v3">★</label>
+            <input type="radio" id="v2" name="valueRating" value="2"><label for="v2">★</label>
+            <input type="radio" id="v1" name="valueRating" value="1"><label for="v1">★</label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="fbComments">Your Comments *</label>
+          <textarea id="fbComments" name="fbComments" required
+            placeholder="Tell us about your experience — what you loved, what we could improve, and any moments that stood out..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>
+            <input type="checkbox" id="fbPublic" name="fbPublic" style="width:auto; margin-right:0.5rem;">
+            I allow VIP Guest Hotel to feature my review on the website (your name will be shown as submitted)
+          </label>
+        </div>
+
+        <div class="form-group">
+          <label>Would you recommend us?</label>
+          <div style="display:flex; gap:1rem; margin-top:0.5rem;">
+            <label style="display:flex; align-items:center; gap:0.4rem; font-weight:400; cursor:pointer;">
+              <input type="radio" name="recommend" value="yes" style="width:auto;"> Yes, absolutely!
+            </label>
+            <label style="display:flex; align-items:center; gap:0.4rem; font-weight:400; cursor:pointer;">
+              <input type="radio" name="recommend" value="maybe" style="width:auto;"> Maybe
+            </label>
+            <label style="display:flex; align-items:center; gap:0.4rem; font-weight:400; cursor:pointer;">
+              <input type="radio" name="recommend" value="no" style="width:auto;"> Not at this time
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" id="fbSubmitBtn">Submit Feedback</button>
+      </form>
+    </section>
+
+    <!-- TripAdvisor CTA -->
+    <section>
+      <span class="section-label">Also Review On</span>
+      <div class="tripadvisor-section">
+        <div class="tripadvisor-badge">
+          <div class="ta-logo">
+            <div class="ta-logo-owl">🦉</div>
+            Leave a Review on TripAdvisor
+          </div>
+        </div>
+        <p style="text-align:center; color:#667788; margin-bottom:1rem;">
+          Loved your stay? Help other travelers discover VIP Guest Hotel by leaving a review on TripAdvisor. It means the world to our family!
+        </p>
+        <div style="text-align:center;">
+          <a href="https://www.tripadvisor.com" target="_blank" class="ta-link" style="font-size:1.05rem; padding:0.75rem 2rem;">
+            Write a TripAdvisor Review
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://img1.wsimg.com/isteam/ip/0e7a6def-6698-4042-8860-0da93b9b8d02/logo%20(1).jpg"
+             alt="VIP Guest Hotel"
+             style="height:60px; filter:invert(1) brightness(10); margin-bottom:0.75rem; display:block;">
+        <p class="slogan">"Alii Welcome Home"</p>
+        <p>A family-owned hotel in downtown Koror, Republic of Palau. We are a home away from home.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/100960141679782" target="_blank" class="social-icon facebook" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://www.instagram.com/vip_guest_hotel" target="_blank" class="social-icon instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.tripadvisor.com" target="_blank" class="social-icon tripadvisor" title="TripAdvisor">T</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./rooms.html">Our Rooms</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./feedback.html">Feedback</a></li>
+          <li><a href="./bookings.html">Book a Room</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="tel:+6804881502">(680) 488-1502</a></li>
+          <li><a href="mailto:vipguesthotel@gmail.com">vipguesthotel@gmail.com</a></li>
+          <li><a href="#">P.O. Box 371, Koror, Palau</a></li>
+          <li><a href="#">Front Desk: 6:30am &ndash; Midnight</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 VIP Guest Hotel &mdash; Family Owned &amp; Operated | Koror, Republic of Palau
+        &nbsp;&bull;&nbsp; <a href="./admin-login.html">Admin</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="./js/main.js"></script>
+  <script>
+    const ratingLabels = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'];
+    document.querySelectorAll('#overallRating input[type="radio"]').forEach(radio => {
+      radio.addEventListener('change', function () {
+        document.getElementById('ratingLabel').textContent =
+          ratingLabels[this.value] + ' (' + this.value + '/5)';
+        document.getElementById('ratingLabel').style.color = '#F5A623';
+      });
+    });
+
+    async function submitFeedback(event) {
+      event.preventDefault();
+      const btn = document.getElementById('fbSubmitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const overallRatingEl = document.querySelector('input[name="overallRating"]:checked');
+      const recommendEl = document.querySelector('input[name="recommend"]:checked');
+
+      const data = {
+        name: document.getElementById('fbName').value,
+        email: document.getElementById('fbEmail').value,
+        room: document.getElementById('fbRoom').value,
+        stayDate: document.getElementById('fbStayDate').value,
+        overallRating: overallRatingEl ? overallRatingEl.value : null,
+        comments: document.getElementById('fbComments').value,
+        recommend: recommendEl ? recommendEl.value : null,
+        allowPublic: document.getElementById('fbPublic').checked
+      };
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ access_key: 'YOUR_WEB3FORMS_ACCESS_KEY', subject: 'New Guest Feedback — VIP Guest Hotel', from_name: data.name, ...data })
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          document.getElementById('feedbackAlert').innerHTML =
+            `<div class="alert alert-success">Thank you, ${data.name}! Your feedback has been received. We truly appreciate you taking the time to share your experience with us. 🌴</div>`;
+          document.getElementById('feedbackForm').reset();
+          document.getElementById('ratingLabel').textContent = 'Click to rate';
+          document.getElementById('ratingLabel').style.color = '#aaa';
+        } else {
+          document.getElementById('feedbackAlert').innerHTML =
+            `<div class="alert alert-error">${result.message || 'Error submitting feedback. Please try again.'}</div>`;
+        }
+      } catch (e) {
+        document.getElementById('feedbackAlert').innerHTML =
+          `<div class="alert alert-error">Could not submit. Please email your feedback to vipguesthotel@gmail.com — thank you!</div>`;
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Submit Feedback';
+    }
+  </script>
+</body>
+</html>

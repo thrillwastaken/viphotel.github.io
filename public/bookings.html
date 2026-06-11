@@ -1,0 +1,369 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a Room - VIP Guest Hotel | Koror, Palau</title>
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav>
+    <div class="nav-inner">
+      <a href="./index.html" class="nav-logo">
+        <img src="https://img1.wsimg.com/isteam/ip/0e7a6def-6698-4042-8860-0da93b9b8d02/logo%20(1).jpg"
+             alt="VIP Guest Hotel"
+             style="height:38px; filter:invert(1) brightness(10); vertical-align:middle; margin-right:6px;">
+        <span>VIP</span> Guest Hotel
+      </a>
+      <ul>
+        <li><a href="./index.html" data-page="home">Home</a></li>
+        <li><a href="./rooms.html" data-page="rooms">Rooms</a></li>
+        <li><a href="./about.html" data-page="about">About</a></li>
+        <li><a href="./contact.html" data-page="contact">Contact</a></li>
+        <li><a href="./feedback.html" data-page="feedback">Feedback</a></li>
+        <li><a href="./bookings.html" class="nav-book-btn active">Book Now</a></li>
+      </ul>
+      <div class="nav-social">
+        <a href="https://www.facebook.com/100960141679782" target="_blank" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+        <a href="https://www.instagram.com/vip_guest_hotel" target="_blank" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <header>
+    <div class="header-logo-box">
+      <img src="https://img1.wsimg.com/isteam/ip/0e7a6def-6698-4042-8860-0da93b9b8d02/logo%20(1).jpg"
+           alt="VIP Guest Hotel" class="header-logo-img">
+    </div>
+    <h1>Book Your Stay</h1>
+    <p>Reserve your room in downtown Koror &mdash; <em>Alii, Welcome Home!</em></p>
+  </header>
+
+  <div class="container">
+
+    <!-- Intro -->
+    <section style="padding: 1rem 0 0;">
+      <p class="section-intro">
+        Fill in your details below to submit a booking inquiry. Our team will confirm your reservation and send payment instructions within 24 hours. You may also pay online via PayPal or card.
+      </p>
+    </section>
+
+    <!-- Booking Form -->
+    <section id="bookingFormSection">
+      <span class="section-label">Reservation</span>
+      <h2>Booking Inquiry</h2>
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <div id="bookingAlert"></div>
+
+        <div class="two-column-form">
+          <div class="form-group">
+            <label for="guestName">Full Name *</label>
+            <input type="text" id="guestName" name="guestName" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label for="guestEmail">Email Address *</label>
+            <input type="email" id="guestEmail" name="guestEmail" placeholder="your@email.com" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="roomType">Select Room Type *</label>
+          <select id="roomType" name="roomType" required>
+            <option value="">— Choose a room —</option>
+            <option value="Single Room">Single Room — $112/night (1–2 guests, 1 Queen Bed)</option>
+            <option value="Double Twin Room">Double / Twin Room — $122/night (2–4 guests, 2 Queen Beds)</option>
+            <option value="Triple Room">Triple Room — $132/night (3–5 guests, 1 Queen + 2 Singles)</option>
+          </select>
+        </div>
+
+        <div class="two-column-form">
+          <div class="form-group">
+            <label for="checkInDate">Check-in Date *</label>
+            <input type="date" id="checkInDate" name="checkInDate" required>
+          </div>
+          <div class="form-group">
+            <label for="checkOutDate">Check-out Date *</label>
+            <input type="date" id="checkOutDate" name="checkOutDate" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="guests">Number of Guests *</label>
+          <input type="number" id="guests" name="guests" min="1" max="8" value="1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone / WhatsApp (optional)</label>
+          <input type="tel" id="phone" name="phone" placeholder="+1 555 000 0000">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Special Requests</label>
+          <textarea id="message" name="message"
+            placeholder="Late checkout, accessibility needs, dietary requirements, airport transfer, special occasion..."></textarea>
+        </div>
+
+        <button type="submit" id="submitBtn">Submit Booking Inquiry</button>
+      </form>
+    </section>
+
+    <!-- Payment Options (shown after successful submission) -->
+    <section id="paymentSection" style="display:none;">
+      <span class="section-label">Secure Payment</span>
+      <h2>Complete Your Payment</h2>
+      <p class="section-intro">
+        Your inquiry has been received! You can pay a deposit now to confirm your booking, or wait for our email confirmation.
+      </p>
+
+      <div class="payment-section">
+        <h3>Secure Online Payment</h3>
+        <p>Choose your preferred payment method. All transactions are secured and encrypted.</p>
+
+        <div style="background:#EEF7FF; border-radius:8px; padding:1rem; margin:1rem 0; font-size:0.95rem;">
+          <strong>Booking Summary:</strong>
+          <span id="paymentSummary"></span>
+        </div>
+
+        <div class="payment-options">
+          <!-- PayPal -->
+          <div style="text-align:center;">
+            <p style="font-size:0.85rem; color:#667788; margin-bottom:0.5rem;">Pay with PayPal</p>
+            <div id="paypal-button-container"></div>
+            <!-- PayPal fallback button -->
+            <a href="https://www.paypal.com/paypalme/vipguesthotelpalau" target="_blank" class="paypal-btn" id="paypalFallback">
+              <span style="font-size:1.2rem;">𝑷</span> Pay with PayPal
+            </a>
+          </div>
+
+          <div style="display:flex; align-items:center; color:#aaa; font-size:1.2rem; font-weight:300;">or</div>
+
+          <!-- Stripe / Card -->
+          <div style="text-align:center;">
+            <p style="font-size:0.85rem; color:#667788; margin-bottom:0.5rem;">Pay by Credit / Debit Card</p>
+            <button class="stripe-btn" onclick="initiateStripePayment()">
+              💳 Pay by Card (Stripe)
+            </button>
+          </div>
+        </div>
+
+        <p style="font-size:0.82rem; color:#aaa; margin-top:1.5rem;">
+          🔒 Payments are processed securely. VIP Guest Hotel never stores your card details.<br>
+          You will receive a receipt by email upon payment.
+        </p>
+      </div>
+
+      <div style="text-align:center; margin-top:1rem;">
+        <a href="./contact.html" class="btn btn-blue">Questions? Contact Us</a>
+      </div>
+    </section>
+
+    <!-- Why Book Direct -->
+    <section class="featured-section">
+      <span class="section-label" style="color:var(--secondary-color);">Book Direct</span>
+      <h2>Why Book Direct With Us?</h2>
+      <div class="cards-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+        <div style="text-align:center; padding:1rem;">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">💰</div>
+          <strong>Best Rate Guarantee</strong>
+          <p style="font-size:0.9rem; color:#667788; margin-top:0.25rem;">No booking fees when you book direct.</p>
+        </div>
+        <div style="text-align:center; padding:1rem;">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">🏡</div>
+          <strong>Personal Service</strong>
+          <p style="font-size:0.9rem; color:#667788; margin-top:0.25rem;">Direct communication with our family team.</p>
+        </div>
+        <div style="text-align:center; padding:1rem;">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">🎁</div>
+          <strong>Special Requests</strong>
+          <p style="font-size:0.9rem; color:#667788; margin-top:0.25rem;">We accommodate your needs with flexibility.</p>
+        </div>
+        <div style="text-align:center; padding:1rem;">
+          <div style="font-size:2rem; margin-bottom:0.5rem;">🔒</div>
+          <strong>Secure Payment</strong>
+          <p style="font-size:0.9rem; color:#667788; margin-top:0.25rem;">PayPal & Stripe — your data is safe.</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="https://img1.wsimg.com/isteam/ip/0e7a6def-6698-4042-8860-0da93b9b8d02/logo%20(1).jpg"
+             alt="VIP Guest Hotel"
+             style="height:60px; filter:invert(1) brightness(10); margin-bottom:0.75rem; display:block;">
+        <p class="slogan">"Alii Welcome Home"</p>
+        <p>A family-owned hotel in downtown Koror, Republic of Palau. We are a home away from home.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/100960141679782" target="_blank" class="social-icon facebook" title="Facebook"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></a>
+          <a href="https://www.instagram.com/vip_guest_hotel" target="_blank" class="social-icon instagram" title="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+          <a href="https://www.tripadvisor.com" target="_blank" class="social-icon tripadvisor" title="TripAdvisor">T</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="./index.html">Home</a></li>
+          <li><a href="./rooms.html">Our Rooms</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./feedback.html">Feedback</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="tel:+6805550123">📞 +680 555-0123</a></li>
+          <li><a href="tel:+6804881502">📞 (680) 488-1502</a></li>
+          <li><a href="mailto:vipguesthotel@gmail.com">✉ vipguesthotel@gmail.com</a></li>
+          <li><a href="#">📍 P.O. Box 371, Koror, Palau</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 VIP Guest Hotel &mdash; Family Owned &amp; Operated | Koror, Republic of Palau
+        &nbsp;&bull;&nbsp; <a href="./admin-login.html">Admin</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- PayPal SDK (replace YOUR_CLIENT_ID with your real PayPal client ID) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
+
+  <script src="./js/main.js"></script>
+  <script>
+    // Pre-select room from query param (clicked from rooms page)
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const room = params.get('room');
+      if (room) {
+        const select = document.getElementById('roomType');
+        for (let opt of select.options) {
+          if (opt.value === room) {
+            opt.selected = true;
+            break;
+          }
+        }
+      }
+
+      // Set min date to today
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('checkInDate').min = today;
+      document.getElementById('checkOutDate').min = today;
+
+      document.getElementById('checkInDate').addEventListener('change', function () {
+        document.getElementById('checkOutDate').min = this.value;
+      });
+    });
+
+    let currentBookingId = null;
+
+    async function submitBooking(event) {
+      event.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      const formData = {
+        guestName: document.getElementById('guestName').value,
+        guestEmail: document.getElementById('guestEmail').value,
+        checkInDate: document.getElementById('checkInDate').value,
+        checkOutDate: document.getElementById('checkOutDate').value,
+        roomType: document.getElementById('roomType').value,
+        guests: document.getElementById('guests').value,
+        phone: document.getElementById('phone').value,
+        message: document.getElementById('message').value
+      };
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            access_key: 'YOUR_WEB3FORMS_ACCESS_KEY',
+            subject: `New Booking Inquiry — VIP Guest Hotel`,
+            from_name: formData.guestName,
+            ...formData
+          })
+        });
+        const result = await res.json();
+
+        if (result.success) {
+          currentBookingId = Date.now();
+          document.getElementById('bookingAlert').innerHTML =
+            `<div class="alert alert-success">Booking inquiry received! Check your email for confirmation. Our team will be in touch within 24 hours.</div>`;
+
+          // Show payment section
+          const nights = calculateNights(formData.checkInDate, formData.checkOutDate);
+          document.getElementById('paymentSummary').innerHTML =
+            ` — ${formData.roomType}, ${nights} night(s), ${formData.guests} guest(s)`;
+          document.getElementById('paymentSection').style.display = 'block';
+          document.getElementById('paymentSection').scrollIntoView({ behavior: 'smooth' });
+
+          // Try to initialize PayPal button
+          initPayPal(formData.roomType, nights);
+        } else {
+          document.getElementById('bookingAlert').innerHTML =
+            `<div class="alert alert-error">${result.message || 'Error submitting booking'}</div>`;
+        }
+      } catch (e) {
+        document.getElementById('bookingAlert').innerHTML =
+          `<div class="alert alert-error">Could not submit booking. Please contact us at vipguesthotel@gmail.com</div>`;
+      }
+
+      btn.disabled = false;
+      btn.textContent = 'Submit Booking Inquiry';
+    }
+
+    function calculateNights(checkIn, checkOut) {
+      const ms = new Date(checkOut) - new Date(checkIn);
+      return Math.max(1, Math.round(ms / (1000 * 60 * 60 * 24)));
+    }
+
+    const roomPrices = {
+      'Single Room': 112,
+      'Double Twin Room': 122,
+      'Triple Room': 132
+    };
+
+    function initPayPal(roomType, nights) {
+      const price = (roomPrices[roomType] || 100) * nights;
+      try {
+        if (window.paypal) {
+          document.getElementById('paypalFallback').style.display = 'none';
+          paypal.Buttons({
+            createOrder: (data, actions) => actions.order.create({
+              purchase_units: [{
+                amount: { value: price.toFixed(2), currency_code: 'USD' },
+                description: `VIP Guest Hotel — ${roomType} x ${nights} night(s)`
+              }]
+            }),
+            onApprove: (data, actions) => actions.order.capture().then(details => {
+              document.getElementById('paymentSection').innerHTML =
+                `<div class="alert alert-success" style="padding:2rem; text-align:center; font-size:1.1rem;">
+                  ✅ Payment confirmed! Thank you, ${details.payer.name.given_name}. Booking reference: ${currentBookingId || data.orderID}. Check your email for confirmation.
+                </div>`;
+            }),
+            onError: () => {
+              document.getElementById('paypalFallback').style.display = 'inline-flex';
+            }
+          }).render('#paypal-button-container');
+        }
+      } catch (e) {
+        // PayPal SDK not configured — fallback link is shown
+      }
+    }
+
+    function initiateStripePayment() {
+      // Stripe payment requires a server-side payment intent
+      // Replace with your real Stripe publishable key and server endpoint
+      alert('Stripe payment is configured via our booking system.\n\nPlease check your email for payment instructions, or contact us at bookings@vipguesthotel.com to process your card payment directly.\n\nThank you for booking with VIP Guest Hotel!');
+    }
+  </script>
+</body>
+</html>
