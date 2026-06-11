@@ -1,0 +1,1 @@
+# viphotel.github.io
